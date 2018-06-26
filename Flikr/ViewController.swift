@@ -60,13 +60,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let photoVM:PhotoViewModel = viewModel.photo(at: indexPath.row) {
                 let request = FlickrRequestBuilder().requestForFlickrImage(photoUrl: photoVM.photoUrl)
                 cell.flickrPhoto.image = UIImage(named: "default-img")
-                print("request for index: \(indexPath.row) photoVM.photoUrl: \(photoVM.photoUrl) ")
                 self.webserviceManager.fetch(urlRequest: request, responseType: .image) { [weak self] (url, response, error) in
                     guard let weakSelf = self, let image = response as? UIImage else {
                         return
                     }
                     if let visibleCell = weakSelf.tableView.cellForRow(at: indexPath) as? FlickrPhotoCell {
-                        print("update for index: \(indexPath.row) photoVM.photoUrl: \(photoVM.photoUrl) ")
                         visibleCell.flickrPhoto.image = image
                     }
                 }
@@ -84,19 +82,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "FlikrPhotoCell", for: indexPath) as! FlickrPhotoCell
             if let photoVM:PhotoViewModel = viewModel.photo(at: indexPath.row) {
                 cell.titleLabel.text = photoVM.title
-                
-//                let request = FlikrRequestBuilder().requestForFlikrImage(photoUrl: photoVM.photoUrl)
-//                cell.flikrPhoto.image = UIImage(named: "default-img")
-//                print("request for index: \(indexPath.row) photoVM.photoUrl: \(photoVM.photoUrl) ")
-//                self.webserviceManager.fetch(urlRequest: request, responseType: .image) { [weak self] (url, response, error) in
-//                    guard let weakSelf = self, let image = response as? UIImage else {
-//                        return
-//                    }
-//                    if let visibleCell = weakSelf.tableView.cellForRow(at: indexPath) as? FlikrPhotoCell {
-//                        print("update for index: \(indexPath.row) photoVM.photoUrl: \(photoVM.photoUrl) ")
-//                        visibleCell.flikrPhoto.image = image
-//                    }
-//                }
             }
             return cell
         }
